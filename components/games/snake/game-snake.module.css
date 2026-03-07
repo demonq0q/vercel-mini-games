@@ -1,0 +1,163 @@
+.root {
+  display: grid;
+  gap: 18px;
+}
+
+.topBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.scoreGroup {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.scoreCard {
+  display: grid;
+  gap: 6px;
+  min-width: 120px;
+  padding: 14px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.scoreLabel {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.scoreValue {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.restartButton,
+.moveButton {
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #052e16;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.restartButton {
+  min-height: 48px;
+  padding: 0 18px;
+}
+
+.restartButton:hover,
+.moveButton:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.restartButton:disabled,
+.moveButton:disabled {
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.15);
+  opacity: 0.65;
+}
+
+.statusText {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.42);
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.statusSuccess {
+  background: rgba(34, 197, 94, 0.16);
+  color: #dcfce7;
+}
+
+.statusDanger {
+  background: rgba(239, 68, 68, 0.16);
+  color: #fee2e2;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: 6px;
+  width: min(100%, 520px);
+  margin: 0 auto;
+  padding: 12px;
+  border-radius: 22px;
+  background: rgba(15, 23, 42, 0.68);
+}
+
+.cell {
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  background: rgba(148, 163, 184, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.cell-head {
+  background: linear-gradient(135deg, #4ade80, #16a34a);
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.18);
+}
+
+.cell-body {
+  background: rgba(34, 197, 94, 0.64);
+}
+
+.cell-food {
+  background: linear-gradient(135deg, #fb7185, #ef4444);
+  box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.26);
+}
+
+.controlArea {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+.movePad {
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  gap: 10px;
+}
+
+.moveButton,
+.padSpacer {
+  width: 64px;
+  height: 56px;
+}
+
+.padSpacer {
+  visibility: hidden;
+}
+
+.controlHint {
+  margin: 0;
+  color: #94a3b8;
+}
+
+@media (max-width: 640px) {
+  .scoreGroup {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    width: 100%;
+  }
+
+  .restartButton {
+    width: 100%;
+  }
+
+  .board {
+    gap: 4px;
+    padding: 8px;
+  }
+}
+

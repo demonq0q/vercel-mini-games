@@ -175,7 +175,7 @@ function mergeLine(line: CellValue[]): MergeLineResult {
     mergedValues.push(currentValue);
   }
 
-  const paddedLine = [...mergedValues];
+  const paddedLine: CellValue[] = [...mergedValues];
 
   while (paddedLine.length < GRID_SIZE) {
     paddedLine.push(null);
@@ -191,4 +191,3 @@ function mergeLine(line: CellValue[]): MergeLineResult {
 function areLinesEqual(firstLine: CellValue[], secondLine: CellValue[]) {
   return firstLine.every((value, index) => value === secondLine[index]);
 }
-
