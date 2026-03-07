@@ -186,10 +186,27 @@
   gap: 10px;
 }
 
+.controlBarFloating {
+  position: sticky;
+  bottom: 12px;
+  z-index: 5;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 18px;
+  background: rgba(7, 17, 31, 0.9);
+  backdrop-filter: blur(14px);
+}
+
 .controlButton {
   min-width: 56px;
   min-height: 48px;
   padding: 0 14px;
+}
+
+.controlBarFloating .controlButton {
+  min-width: 60px;
+  min-height: 52px;
+  flex: 1 1 64px;
 }
 
 @media (max-width: 760px) {
@@ -210,5 +227,8 @@
     max-width: 320px;
     margin: 0 auto;
   }
-}
 
+  .controlBarFloating {
+    bottom: 6px;
+  }
+}

@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './game-2048.module.css';
+import { useAdaptiveLayout } from '@/lib/hooks/use-adaptive-layout';
+import { useSwipeDirection } from '@/lib/hooks/use-swipe-direction';
 import {
   createInitialBoard,
   moveBoard,
@@ -82,11 +84,13 @@ export function Game2048() {
   const [gameState, setGameState] = useState<Game2048State>(createNewGameState);
   const [bestScore, setBestScore] = useState(0);
   const [bestScoreReady, setBestScoreReady] = useState(false);
+  const { preferMobileExperience } = useAdaptiveLayout();
 
   useEffect(() => {
     const savedBestScore = window.localStorage.getItem(BEST_SCORE_STORAGE_KEY);
 
     if (!savedBestScore) {
+      setBestScoreReady(true);
       return;
     }
 
@@ -166,8 +170,14 @@ export function Game2048() {
       return '你已经合成 2048，当前仍可继续冲更高分。';
     }
 
+    if (preferMobileExperience) {
+      return '支持滑动手势和屏幕方向键，向任意方向轻扫即可移动方块。';
+    }
+
     return '使用方向键或 WASD 移动方块，相同数字会自动合并。';
-  }, [gameState.gameOver, gameState.won]);
+  }, [gameState.gameOver, gameState.won, preferMobileExperience]);
+
+  const swipeHandlers = useSwipeDirection(handleMove, preferMobileExperience && !gameState.gameOver);
 
   return (
     <section className={styles.root}>
@@ -195,23 +205,25 @@ export function Game2048() {
         {statusText}
       </p>
 
-      <div className={styles.board} role="grid" aria-label="2048 棋盘">
-        {gameState.board.map((row, rowIndex) =>
-          row.map((cell, columnIndex) => (
-            <div
-              key={`${rowIndex}-${columnIndex}`}
-              className={styles.cell}
-              role="gridcell"
-              aria-label={getCellLabel(cell)}
-              style={getTileStyle(cell)}
-            >
-              {cell ?? ''}
-            </div>
-          )),
-        )}
+      <div className={styles.boardWrap} {...swipeHandlers}>
+        <div className={styles.board} role="grid" aria-label="2048 棋盘">
+          {gameState.board.map((row, rowIndex) =>
+            row.map((cell, columnIndex) => (
+              <div
+                key={`${rowIndex}-${columnIndex}`}
+                className={styles.cell}
+                role="gridcell"
+                aria-label={getCellLabel(cell)}
+                style={getTileStyle(cell)}
+              >
+                {cell ?? ''}
+              </div>
+            )),
+          )}
+        </div>
       </div>
 
-      <div className={styles.controlArea}>
+      <div className={`${styles.controlArea} ${preferMobileExperience ? styles.controlAreaFloating : ''}`}>
         <div className={styles.movePad} aria-label="方向按钮">
           <div className={styles.padSpacer} />
           <button
@@ -237,7 +249,7 @@ export function Game2048() {
           ))}
         </div>
 
-        <p className={styles.controlHint}>也可以直接用键盘方向键或 WASD 操作。</p>
+        <p className={styles.controlHint}>{preferMobileExperience ? '支持轻扫和方向按钮；桌面端仍可继续用键盘操作。' : '也可以直接用键盘方向键或 WASD 操作。'}</p>
       </div>
     </section>
   );

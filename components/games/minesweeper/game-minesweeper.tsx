@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties, type MouseEvent } from 'react';
 import styles from './game-minesweeper.module.css';
+import { useAdaptiveLayout } from '@/lib/hooks/use-adaptive-layout';
 import {
   createMinesweeperGame,
   difficultyOptions,
@@ -50,6 +51,8 @@ export function GameMinesweeper() {
   const [gameState, setGameState] = useState<MinesweeperGameState>(() => createMinesweeperGame('beginner'));
   const [bestTimes, setBestTimes] = useState<BestTimes>({});
   const [storageReady, setStorageReady] = useState(false);
+  const [touchMode, setTouchMode] = useState<'reveal' | 'flag'>('reveal');
+  const { preferMobileExperience } = useAdaptiveLayout();
 
   useEffect(() => {
     const savedDifficulty = window.localStorage.getItem(LAST_DIFFICULTY_STORAGE_KEY) as DifficultyKey | null;
@@ -136,6 +139,18 @@ export function GameMinesweeper() {
     setGameState((currentState) => toggleFlag(currentState, row, col));
   }, []);
 
+  const handlePrimaryAction = useCallback(
+    (row: number, col: number) => {
+      if (preferMobileExperience && touchMode === 'flag') {
+        handleToggleFlag(row, col);
+        return;
+      }
+
+      handleReveal(row, col);
+    },
+    [handleReveal, handleToggleFlag, preferMobileExperience, touchMode],
+  );
+
   const handleCellRightClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>, row: number, col: number) => {
       event.preventDefault();
@@ -163,11 +178,19 @@ export function GameMinesweeper() {
     }
 
     if (gameState.status === 'playing') {
+      if (preferMobileExperience && touchMode === 'flag') {
+        return '当前是插旗模式，轻触格子会放置或取消旗帜。';
+      }
+
+      if (preferMobileExperience) {
+        return '当前是翻格模式，轻触格子即可翻开；需要插旗时先切换到插旗模式。';
+      }
+
       return '左键翻开格子，右键插旗；首击安全，空白区域会自动展开。';
     }
 
     return '先点任意一个格子开始本局；计时会从第一次翻格时开始。';
-  }, [gameState.status]);
+  }, [gameState.status, preferMobileExperience, touchMode]);
 
   return (
     <section className={styles.root}>
@@ -202,8 +225,27 @@ export function GameMinesweeper() {
           >
             {difficulty.label}
           </button>
-        ))}
+          ))}
       </div>
+
+      {preferMobileExperience ? (
+        <div className={styles.touchModeRow}>
+          <button
+            className={`${styles.touchModeButton} ${touchMode === 'reveal' ? styles.touchModeButtonActive : ''}`}
+            type="button"
+            onClick={() => setTouchMode('reveal')}
+          >
+            轻触翻格
+          </button>
+          <button
+            className={`${styles.touchModeButton} ${touchMode === 'flag' ? styles.touchModeButtonActive : ''}`}
+            type="button"
+            onClick={() => setTouchMode('flag')}
+          >
+            轻触插旗
+          </button>
+        </div>
+      ) : null}
 
       <p
         className={`${styles.statusText} ${gameState.status === 'lost' ? styles.statusDanger : ''} ${gameState.status === 'won' ? styles.statusSuccess : ''}`}
@@ -221,7 +263,7 @@ export function GameMinesweeper() {
               type="button"
               role="gridcell"
               aria-label={`第 ${cell.row + 1} 行第 ${cell.col + 1} 列`}
-              onClick={() => handleReveal(cell.row, cell.col)}
+              onClick={() => handlePrimaryAction(cell.row, cell.col)}
               onContextMenu={(event) => handleCellRightClick(event, cell.row, cell.col)}
               disabled={gameState.status === 'won' || gameState.status === 'lost'}
             >
@@ -231,8 +273,7 @@ export function GameMinesweeper() {
         </div>
       </div>
 
-      <p className={styles.controlHint}>桌面端右键可插旗；如果你在触控板上操作，通常是双指点按。</p>
+      <p className={styles.controlHint}>{preferMobileExperience ? '移动端可用上方模式切换来决定轻触行为；桌面端仍然支持右键插旗。' : '桌面端右键可插旗；如果你在触控板上操作，通常是双指点按。'}</p>
     </section>
   );
 }
-

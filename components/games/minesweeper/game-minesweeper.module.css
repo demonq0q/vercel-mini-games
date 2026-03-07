@@ -75,8 +75,32 @@
   color: #082032;
 }
 
+.touchModeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.touchModeButton {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.42);
+  color: #cbd5e1;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease, background-color 0.15s ease;
+}
+
+.touchModeButtonActive {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #f0fdf4;
+}
+
 .restartButton:hover,
 .difficultyButton:hover,
+.touchModeButton:hover,
 .cell:hover:not(:disabled) {
   transform: translateY(-1px);
   filter: brightness(1.05);
@@ -212,6 +236,10 @@
     width: 100%;
   }
 
+  .touchModeButton {
+    flex: 1 1 calc(50% - 5px);
+  }
+
   .board {
     grid-template-columns: repeat(var(--columns), 28px);
     gap: 4px;
@@ -225,4 +253,3 @@
     font-size: 16px;
   }
 }
-

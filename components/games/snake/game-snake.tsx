@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './game-snake.module.css';
+import { useAdaptiveLayout } from '@/lib/hooks/use-adaptive-layout';
+import { useSwipeDirection } from '@/lib/hooks/use-swipe-direction';
 import {
   advanceSnakeGame,
   BOARD_SIZE,
@@ -69,6 +71,7 @@ export function GameSnake() {
   const [gameState, setGameState] = useState<SnakeGameState>(createInitialSnakeGame);
   const [bestScore, setBestScore] = useState(0);
   const [bestScoreReady, setBestScoreReady] = useState(false);
+  const { preferMobileExperience } = useAdaptiveLayout();
 
   useEffect(() => {
     const savedBestScore = window.localStorage.getItem(BEST_SCORE_STORAGE_KEY);
@@ -174,8 +177,14 @@ export function GameSnake() {
       return '撞到了，点“重新开始”就能立刻再来一局。';
     }
 
+    if (preferMobileExperience) {
+      return '支持轻扫改向和屏幕方向键，吃到食物后身体会继续变长。';
+    }
+
     return '使用方向键或 WASD 控制移动，吃到食物后身体会变长。';
-  }, [gameState.gameOver, gameState.won]);
+  }, [gameState.gameOver, gameState.won, preferMobileExperience]);
+
+  const swipeHandlers = useSwipeDirection(handleTurn, preferMobileExperience && !gameState.gameOver && !gameState.won);
 
   return (
     <section className={styles.root}>
@@ -207,18 +216,20 @@ export function GameSnake() {
         {statusText}
       </p>
 
-      <div className={styles.board} role="grid" aria-label="贪吃蛇棋盘">
-        {cells.map((cell) => (
-          <div
-            key={cell.key}
-            className={`${styles.cell} ${styles[`cell-${cell.type}`]}`}
-            role="gridcell"
-            aria-label={cell.type === 'food' ? '食物' : cell.type === 'head' ? '蛇头' : cell.type === 'body' ? '蛇身' : '空格'}
-          />
-        ))}
+      <div className={styles.boardWrap} {...swipeHandlers}>
+        <div className={styles.board} role="grid" aria-label="贪吃蛇棋盘">
+          {cells.map((cell) => (
+            <div
+              key={cell.key}
+              className={`${styles.cell} ${styles[`cell-${cell.type}`]}`}
+              role="gridcell"
+              aria-label={cell.type === 'food' ? '食物' : cell.type === 'head' ? '蛇头' : cell.type === 'body' ? '蛇身' : '空格'}
+            />
+          ))}
+        </div>
       </div>
 
-      <div className={styles.controlArea}>
+      <div className={`${styles.controlArea} ${preferMobileExperience ? styles.controlAreaFloating : ''}`}>
         <div className={styles.movePad} aria-label="方向按钮">
           <div className={styles.padSpacer} />
           <button
@@ -244,9 +255,8 @@ export function GameSnake() {
           ))}
         </div>
 
-        <p className={styles.controlHint}>支持键盘方向键和 WASD，撞墙或撞到自己会结束。</p>
+        <p className={styles.controlHint}>{preferMobileExperience ? '支持轻扫和屏幕方向键；桌面端仍可继续用键盘操作。' : '支持键盘方向键和 WASD，撞墙或撞到自己会结束。'}</p>
       </div>
     </section>
   );
 }
-

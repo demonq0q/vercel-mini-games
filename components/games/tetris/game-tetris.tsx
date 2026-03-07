@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './game-tetris.module.css';
+import { useAdaptiveLayout } from '@/lib/hooks/use-adaptive-layout';
 import {
   getMergedBoard,
   getPieceCells,
@@ -68,6 +69,7 @@ export function GameTetris() {
   const [gameState, setGameState] = useState<TetrisGameState>(createInitialTetrisGame);
   const [bestScore, setBestScore] = useState(0);
   const [bestScoreReady, setBestScoreReady] = useState(false);
+  const { preferMobileExperience } = useAdaptiveLayout();
 
   useEffect(() => {
     const savedBestScore = window.localStorage.getItem(BEST_SCORE_STORAGE_KEY);
@@ -168,8 +170,12 @@ export function GameTetris() {
       return '顶部被堆满了，点“重新开始”可以立刻再开一局。';
     }
 
+    if (preferMobileExperience) {
+      return '已启用移动端优先布局，底部大按钮更适合触屏操作。';
+    }
+
     return '方向键或 WASD 可移动和旋转，空格可以直接把当前方块落到底。';
-  }, [gameState.gameOver]);
+  }, [gameState.gameOver, preferMobileExperience]);
 
   return (
     <section className={styles.root}>
@@ -247,7 +253,7 @@ export function GameTetris() {
         </aside>
       </div>
 
-      <div className={styles.controlBar}>
+      <div className={`${styles.controlBar} ${preferMobileExperience ? styles.controlBarFloating : ''}`}>
         {actionButtons.map((button) => (
           <button
             key={button.action}

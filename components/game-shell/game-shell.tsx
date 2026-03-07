@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { PageTopbar } from '@/components/common/page-topbar';
 import type { GameDefinition } from '@/lib/games/catalog';
 
 type GameShellProps = {
@@ -11,6 +12,8 @@ type GameShellProps = {
 export function GameShell({ game, board, actionLabel = '游戏逻辑待接入' }: GameShellProps) {
   return (
     <main className="page-shell">
+      <PageTopbar subtitle="统一设置会在所有游戏页面之间保持同步" />
+
       <section className="game-shell">
         <header className="shell-header">
           <div>
