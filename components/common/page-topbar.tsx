@@ -9,7 +9,7 @@ type PageTopbarProps = {
 export function PageTopbar({ subtitle }: PageTopbarProps) {
   return (
     <div className={styles.root}>
-      <Link className={styles.brand} href="/">
+      <Link className={styles.brandPanel} href="/">
         <span className={styles.brandMark}>OSS</span>
         <span className={styles.brandTextWrap}>
           <strong className={styles.brandTitle}>Vercel 在线网页小游戏</strong>
@@ -17,8 +17,9 @@ export function PageTopbar({ subtitle }: PageTopbarProps) {
         </span>
       </Link>
 
-      <SettingsPanel />
+      <div className={styles.settingsWrap}>
+        <SettingsPanel />
+      </div>
     </div>
   );
 }
-

@@ -66,7 +66,7 @@ ul {
 .page-shell {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 48px 0 72px;
+  padding: 36px 0 72px;
 }
 
 .hero-panel,
@@ -254,7 +254,7 @@ ul {
 @media (max-width: 860px) {
   .page-shell {
     width: min(100% - 24px, 1120px);
-    padding: 28px 0 48px;
+    padding: 24px 0 48px;
   }
 
   .hero-panel,

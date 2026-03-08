@@ -32,8 +32,8 @@ export default function HomePage() {
       <section className={`${styles.heroPanel} hero-panel`}>
         <div className={styles.heroMain}>
           <span className="hero-badge">5 款游戏已可试玩</span>
-          <h1 className="hero-title">在线网页小游戏合集</h1>
-          <p className="hero-description">
+          <h1 className={`hero-title ${styles.heroTitle}`}>在线网页小游戏合集</h1>
+          <p className={`hero-description ${styles.heroDescription}`}>
             当前项目已经完成 `2048`、`贪吃蛇`、`扫雷`、`俄罗斯方块` 和 `蜘蛛纸牌` 单花色 MVP，
             并补齐了统一设置区、移动端操作优化和 Vercel 部署说明。
           </p>
@@ -65,12 +65,12 @@ export default function HomePage() {
             <ul className={styles.previewList}>
               {gameCatalog.slice(0, 3).map((game) => (
                 <li key={game.slug} className={styles.previewItem}>
-                  <div>
+                  <div className={styles.previewItemBody}>
                     <strong>{game.name}</strong>
-                    <p>{game.summary}</p>
+                    <p className={styles.previewSummary}>{game.summary}</p>
                   </div>
                   <Link className={styles.inlineLink} href={game.path}>
-                    打开
+                    立即打开
                   </Link>
                 </li>
               ))}
