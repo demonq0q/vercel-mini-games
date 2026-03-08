@@ -21,10 +21,36 @@
   font-size: 15px;
 }
 
+.heroHighlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.heroHighlightItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.44);
+  color: var(--text);
+  font-size: 13px;
+}
+
 .heroActions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.heroHint {
+  margin: -2px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .heroStatGrid {
@@ -40,6 +66,13 @@
   border: 1px solid rgba(148, 163, 184, 0.16);
   border-radius: 18px;
   background: rgba(2, 6, 23, 0.24);
+  transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(125, 211, 252, 0.2);
+  background: rgba(7, 18, 32, 0.44);
 }
 
 .statLabel {
@@ -84,6 +117,12 @@
   font-size: 24px;
 }
 
+.previewDescription {
+  margin: -2px 0 2px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .previewList {
   display: grid;
   gap: 12px;
@@ -101,6 +140,13 @@
   border: 1px solid rgba(148, 163, 184, 0.14);
   border-radius: 16px;
   background: rgba(2, 6, 23, 0.2);
+  transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.previewItem:hover {
+  transform: translateY(-2px);
+  border-color: rgba(125, 211, 252, 0.2);
+  background: rgba(9, 21, 38, 0.42);
 }
 
 .previewItemBody {
@@ -160,6 +206,13 @@
 
 .featureCard {
   padding: 24px;
+  transition: transform 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(125, 211, 252, 0.2);
+  background: rgba(12, 27, 46, 0.74);
 }
 
 .sectionShell {
@@ -174,6 +227,11 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 16px;
+}
+
+.sectionDescription {
+  max-width: 560px;
+  font-size: 15px;
 }
 
 .gameCardFooter {
@@ -209,6 +267,10 @@
   .heroPanel,
   .sectionShell {
     padding: 18px;
+  }
+
+  .heroHighlights {
+    gap: 8px;
   }
 
   .heroStatGrid {

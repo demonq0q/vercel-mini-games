@@ -10,6 +10,7 @@ export default function HomePage() {
     { label: '统一设置', value: '已接入', description: '主题、动效和移动端布局可统一切换' },
     { label: '部署方式', value: 'Vercel', description: '当前仓库可直接导入并完成首版上线' },
   ];
+  const heroHighlights = ['统一设置实时同步', '移动端操作优化', '支持直接部署到 Vercel'];
   const featureCards = [
     {
       title: '统一游戏外壳',
@@ -27,7 +28,7 @@ export default function HomePage() {
 
   return (
     <main className="page-shell">
-      <PageTopbar subtitle="统一设置、多端操作优化、可直接部署到 Vercel" />
+      <PageTopbar subtitle="统一设置实时同步、移动端优先、可直接部署到 Vercel" />
 
       <section className={`${styles.heroPanel} hero-panel`}>
         <div className={styles.heroMain}>
@@ -38,6 +39,14 @@ export default function HomePage() {
             并补齐了统一设置区、移动端操作优化和 Vercel 部署说明。
           </p>
 
+          <ul className={styles.heroHighlights} aria-label="首页能力摘要">
+            {heroHighlights.map((item) => (
+              <li key={item} className={styles.heroHighlightItem}>
+                {item}
+              </li>
+            ))}
+          </ul>
+
           <div className={styles.heroActions}>
             <Link className="primary-link" href="/games/2048">
               立即开始
@@ -46,6 +55,8 @@ export default function HomePage() {
               查看全部游戏
             </a>
           </div>
+
+          <p className={styles.heroHint}>进入任意游戏页面后，主题、动效和布局偏好都会继续保持一致。</p>
 
           <div className={styles.heroStatGrid}>
             {heroStats.map((item) => (
@@ -60,8 +71,9 @@ export default function HomePage() {
 
         <div className={styles.heroPreview}>
           <div className={styles.previewPanel}>
-            <span className={styles.previewEyebrow}>当前推荐路线</span>
+            <span className={styles.previewEyebrow}>精选试玩路线</span>
             <h2 className={styles.previewTitle}>从首页进入，即可直接试玩全部模块</h2>
+            <p className={styles.previewDescription}>推荐先从规则直观、反馈更快的模块开始，再逐步切换到更复杂的纸牌玩法。</p>
             <ul className={styles.previewList}>
               {gameCatalog.slice(0, 3).map((game) => (
                 <li key={game.slug} className={styles.previewItem}>

@@ -1,8 +1,8 @@
 .panel {
   display: grid;
-  gap: 12px;
-  width: min(100%, 360px);
-  padding: 14px;
+  gap: 14px;
+  width: min(100%, 380px);
+  padding: 16px;
   border: 1px solid rgba(148, 163, 184, 0.16);
   border-radius: 20px;
   background: rgba(10, 22, 39, 0.72);
@@ -12,18 +12,25 @@
 
 .panelOpen {
   border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 24px 60px rgba(2, 8, 23, 0.5);
 }
 
 .trigger {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding: 0;
+  padding: 2px 0;
   border: 0;
   background: transparent;
   color: var(--text);
   cursor: pointer;
+  text-align: left;
+}
+
+.triggerContent {
+  display: grid;
+  gap: 4px;
 }
 
 .triggerTitle {
@@ -31,15 +38,37 @@
   font-weight: 700;
 }
 
+.triggerHint {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 240px;
+}
+
 .triggerText,
 .description {
   color: var(--muted);
 }
 
+.triggerText {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.1);
+  color: #7dd3fc;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .summaryRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .summaryChip,
@@ -74,6 +103,11 @@
 .label {
   font-size: 14px;
   font-weight: 700;
+}
+
+.description {
+  margin: 4px 0 0;
+  line-height: 1.6;
 }
 
 .settingRow {
@@ -115,6 +149,19 @@
     width: 100%;
   }
 
+  .trigger {
+    flex-direction: column;
+  }
+
+  .triggerHint {
+    max-width: none;
+  }
+
+  .triggerText {
+    width: 100%;
+    min-height: 40px;
+  }
+
   .settingRow {
     flex-direction: column;
   }
@@ -129,4 +176,3 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-

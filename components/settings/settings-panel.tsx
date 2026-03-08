@@ -18,9 +18,18 @@ export function SettingsPanel() {
 
   return (
     <section className={`${styles.panel} ${open ? styles.panelOpen : ''}`}>
-      <button className={styles.trigger} type="button" onClick={() => setOpen((currentOpen) => !currentOpen)}>
-        <span className={styles.triggerTitle}>统一设置</span>
-        <span className={styles.triggerText}>{open ? '收起' : '展开'}</span>
+      <button
+        aria-controls="site-settings-body"
+        aria-expanded={open}
+        className={styles.trigger}
+        type="button"
+        onClick={() => setOpen((currentOpen) => !currentOpen)}
+      >
+        <span className={styles.triggerContent}>
+          <span className={styles.triggerTitle}>统一设置</span>
+          <span className={styles.triggerHint}>主题、布局和动效会在所有页面之间保持同步。</span>
+        </span>
+        <span className={styles.triggerText}>{open ? '收起面板' : '展开面板'}</span>
       </button>
 
       <div className={styles.summaryRow}>
@@ -32,7 +41,7 @@ export function SettingsPanel() {
       </div>
 
       {open ? (
-        <div className={styles.body}>
+        <div className={styles.body} id="site-settings-body">
           <section className={styles.section}>
             <span className={styles.label}>主题风格</span>
             <div className={styles.segmentedGroup}>
@@ -81,4 +90,3 @@ export function SettingsPanel() {
     </section>
   );
 }
-
